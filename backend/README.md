@@ -1,0 +1,14 @@
+- How to start project
+  - django-admin startproject todo .
+  - Project contains project level configurations like database
+- Creating app
+  - python manage.py startapp api
+  - A project can have several apps
+- Run server
+  - python manage.py runserver 8000
+- Making Migrations
+  - python manage.py makemigrations
+  - This creates a migrations file which tells what changes are required in database
+- Migrate
+  - python manage.py migrate
+  - This actually makes changes specified in migrations file
