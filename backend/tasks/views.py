@@ -22,3 +22,21 @@ class TaskCategoryDetailAPIView(generics.RetrieveAPIView):
 
 
 task_category_detail_view = TaskCategoryDetailAPIView.as_view()
+
+
+class TaskCategoryUpdateAPIView(generics.UpdateAPIView):
+    queryset = TaskCategory.objects.all()
+    serializer_class = TaskCategorySerializer
+    lookup_field = 'pk'
+
+
+task_category_update_view = TaskCategoryUpdateAPIView.as_view()
+
+
+class TaskCategoryDestroyAPIView(generics.DestroyAPIView):
+    queryset = TaskCategory.objects.all()
+    serializer_class = TaskCategorySerializer
+    lookup_field = 'pk'
+
+
+task_category_destroy_view = TaskCategoryDestroyAPIView.as_view()

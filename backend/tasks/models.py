@@ -5,6 +5,7 @@ from django.db import models
 
 class TaskCategory(models.Model):
     title = models.CharField(max_length=120, unique=True)
+    description = models.CharField(max_length=120, null=True)
 
     @property
     def view_title(self):

@@ -10,6 +10,7 @@ class TaskCategorySerializer(serializers.ModelSerializer):
         model = TaskCategory
         fields = [
             'title',
+            'description',
             'view_title',
             'custom_lower_title'
         ]
