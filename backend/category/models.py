@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 
-class TaskCategory(models.Model):
+class Category(models.Model):
     title = models.CharField(max_length=120, unique=True)
     description = models.CharField(max_length=120, null=True)
 

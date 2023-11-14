@@ -1,13 +1,13 @@
 from rest_framework import serializers
 
-from .models import TaskCategory
+from .models import Category
 
 
-class TaskCategorySerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     custom_lower_title = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = TaskCategory
+        model = Category
         fields = [
             'title',
             'description',
@@ -16,7 +16,7 @@ class TaskCategorySerializer(serializers.ModelSerializer):
         ]
 
     def get_custom_lower_title(self, obj):
-        if not isinstance(obj, TaskCategory):
+        if not isinstance(obj, Category):
             return None
 
         return str(obj.lower_title())
