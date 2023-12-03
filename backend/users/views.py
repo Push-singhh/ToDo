@@ -11,8 +11,6 @@ from .serializer import UserSerializer, RegisterUserSerializer
 class UsersDetailUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
 
 
 users_detail_update_view = UsersDetailUpdateAPIView.as_view()
