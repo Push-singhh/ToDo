@@ -10,6 +10,7 @@ class User(AbstractUser):
     username = None
     first_name = None
     last_name = None
+    name = models.CharField(max_length=120, null=True)
     email = models.EmailField("email_address", unique=True)
 
     USERNAME_FIELD = "email"
