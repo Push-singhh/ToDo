@@ -5,7 +5,7 @@ from .views import CustomAuthToken, users_detail_update_view, register_user_api_
 
 urlpatterns = [
     path('register', register_user_api_view),
-    path('auth/api-token-auth', CustomAuthToken.as_view()),
+    path('auth/login', CustomAuthToken.as_view()),
     path('<int:pk>', users_detail_update_view),
     path('<int:pk>/update', users_detail_update_view)
 ]
