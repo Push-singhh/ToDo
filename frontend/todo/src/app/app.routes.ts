@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { RegisterComponent } from './user/register/register.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './user/login/login.component';
-import { MatFormField } from '@angular/material/form-field';
+import { TodoBoardComponent } from './todo/todo-board/todo-board.component';
 
 export const routes: Routes = [
     {
@@ -13,5 +13,8 @@ export const routes: Routes = [
     },
     {
         path: 'user/login', component: LoginComponent
+    },
+    {
+        path: 'todo-board', component: TodoBoardComponent
     }
 ];
