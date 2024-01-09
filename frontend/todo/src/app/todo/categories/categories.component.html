@@ -1,1 +1,15 @@
-<p>categories works!</p>
+<div class="container">
+    <div class="header">
+        @if(user?.email) {
+            <span>{{user?.email}}</span>
+            <button mat-raised-button (click)="logout()">Logout</button>
+        }
+        @else {
+            <span>Please Login</span>
+            <button mat-raised-button (click)="submit()">Login</button>
+        }
+    </div>
+    <div>
+        <span>Display categories here</span>
+    </div>
+</div>
