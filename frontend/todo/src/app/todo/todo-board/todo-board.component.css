@@ -1,8 +1,4 @@
 .container {
-    position: absolute;
-    top: 10px;
-    bottom: 1px;
-    left: 3px;
-    right: 0;
-  }
-  
+  display: grid;
+  height: 100vh;
+}

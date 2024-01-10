@@ -10,6 +10,10 @@
         }
     </div>
     <div>
-        <span>Display categories here</span>
+        <div cdkDropList class="category-list" (cdkDropListDropped)="drop($event)">
+            @for (category of categories; track category) {
+              <div class="category-item" cdkDrag>{{category?.title}}</div>
+            }
+          </div>
     </div>
 </div>
