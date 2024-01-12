@@ -5,8 +5,6 @@ COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
 RUN npm run build
-# EXPOSE 4200
-# CMD ["npm", "start"]
 
 # STAGE 2
 FROM nginx:1.25-alpine
