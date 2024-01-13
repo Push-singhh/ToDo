@@ -51,6 +51,10 @@ export class CategoriesComponent {
     });
   }
 
+  openList(category_id:any) {
+    this.router.navigate(['/todo-board/category/', category_id])
+  }
+
   submit() {
     this.router.navigate(['/user/login']);
   }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { CategoriesComponent } from '../categories/categories.component';
 import { TasksComponent } from "../tasks/tasks.component";
+import { TaskDetailsComponent } from '../task-details/task-details.component';
 
 @Component({
     selector: 'app-todo-board',
@@ -11,7 +12,8 @@ import { TasksComponent } from "../tasks/tasks.component";
     imports: [
         MatSidenavModule,
         CategoriesComponent,
-        TasksComponent
+        TasksComponent,
+        TaskDetailsComponent
     ]
 })
 export class TodoBoardComponent {

@@ -36,7 +36,6 @@ export class CreateCategoryDialogComponent {
   }
 
   submit() {
-    console.log(this.categoryForm)
     this.crudService.postData("categories/", {
       title: this.categoryForm.get("title").value
     }).subscribe((data: any) => {

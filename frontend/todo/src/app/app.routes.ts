@@ -18,5 +18,14 @@ export const routes: Routes = [
     {
         path: 'todo-board', component: TodoBoardComponent,
         canActivate: [authGuard]
+    },
+    {
+        path: 'todo-board/category/:id', component: TodoBoardComponent,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'todo-board/category/:id/task/:task_id', component: TodoBoardComponent,
+        canActivate: [authGuard]
     }
+
 ];

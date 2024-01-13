@@ -39,7 +39,6 @@ export class RegisterComponent {
   }
 
   submit(){
-    console.log(this.registerForm)
     this.authentiactionService.register({
       name: this.registerForm.get('name').value,
       email: this.registerForm.get('email').value,
