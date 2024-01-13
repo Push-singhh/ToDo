@@ -6,7 +6,7 @@ from users.models import User
 
 
 class Task(models.Model):
-    category = models.ForeignKey(Category, null=True, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-    task = models.CharField(max_length=120)
-    note = models.CharField(max_length=120)
+    category = models.ForeignKey(Category, null=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
+    task = models.CharField(max_length=120, null=False)
+    note = models.CharField(max_length=120, null=True)
