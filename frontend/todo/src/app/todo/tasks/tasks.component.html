@@ -1,1 +1,11 @@
-<p>tasks works!</p>
+<div cdkDropList class="tasks-list" (cdkDropListDropped)="drop($event)">
+    @for (task of tasks; track task) {
+      <div class="task-box" cdkDrag>{{task?.task}}</div>
+    }
+  </div>
+
+  <div>
+    <button mat-raised-button (click)="openDialog()">Create Task</button>
+  </div>
+
+  
