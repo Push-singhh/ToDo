@@ -2,18 +2,14 @@ version: '3.8'
 
 services:
   django-app:
-    build: ./backend/
-    ports:
-      - 8000:8000
+    build: ../backend/
     networks:
       - todo
 
   angular-app:
-    build: ./frontend/todo
+    build: ../frontend/todo
     depends_on:
       - django-app
-    ports:
-      - 80:80
     networks:
       - todo
       
