@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { CrudService } from '../../services/crud.service';
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag} from '@angular/cdk/drag-drop'
@@ -19,17 +19,22 @@ import { CreateCategoryDialogComponent } from '../../dialogs/create-category-dia
 export class CategoriesComponent {
   user: any = {}
   categories: any = []
+  selectedCategory!: number 
 
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
     private crudService: CrudService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private activatedRoute: ActivatedRoute
   ) {
     this.user['email'] = localStorage.getItem("email")
     this.user['name'] = localStorage.getItem("name")
     this.user['user_id'] = localStorage.getItem("user_id")
     
+    this.activatedRoute.params.subscribe((data:any) => {
+      this.selectedCategory = data.id
+    })
   }
 
   ngOnInit() {
@@ -51,7 +56,8 @@ export class CategoriesComponent {
     });
   }
 
-  openList(category_id:any) {
+  openList(category_id:number) {
+    this.selectedCategory = category_id
     this.router.navigate(['/todo-board/category/', category_id])
   }
 

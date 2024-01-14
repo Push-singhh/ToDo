@@ -9,14 +9,17 @@
             <button mat-raised-button (click)="submit()">Login</button>
         }
     </div>
-    <div>
+    <div class="content">
         <div cdkDropList class="category-list" (cdkDropListDropped)="drop($event)">
-            @for (category of categories; track category) {
-                    <div class="category-item" cdkDrag (click)="openList(category.id)">{{category?.title}}</div>
+            @for (category of categories; track category;) {
+                    <div class="category-item" cdkDrag (click)="openList(category.id)"
+                    [class.active]="category.id == selectedCategory">
+                        {{ category?.title}}
+                    </div>
             }
           </div>
     </div>
-    <div>
+    <div class="footer">
         <button mat-raised-button (click)="openDialog()">New List</button>
     </div>
 </div>

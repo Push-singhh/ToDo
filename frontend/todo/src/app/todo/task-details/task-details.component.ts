@@ -27,7 +27,6 @@ export class TaskDetailsComponent {
 
       }
     })
-    console.log(this.task_id)
   }
 
   getTaskDetails(task_id:any) {

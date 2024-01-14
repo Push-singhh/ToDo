@@ -17,7 +17,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class TasksComponent {
   tasks:any = []
-  category_id:any
+  category_id!:number
+  selectedTaskId!:number
 
   constructor(
     private crudService: CrudService,
@@ -27,20 +28,21 @@ export class TasksComponent {
   ) {
     this.activatedRoute.params.subscribe((data:any) => {
       this.category_id = data.id
+      this.selectedTaskId = data.task_id
       if(this.category_id) {
         this.getTasks(this.category_id)
       }
     })
   }
 
-  getTasks(category_id: any) {
+  getTasks(category_id: number) {
     this.crudService.getAllData(`tasks/?category_id=${category_id}`).subscribe((data:any) => {
       this.tasks = data
     })
   }
 
-  taskDetails(task_id:any) {
-    console.log("111", task_id  )
+  taskDetails(task_id:number) {
+    this.selectedTaskId = task_id
     this.router.navigate(['/todo-board/category', this.category_id, 'task', task_id])
   }
 

@@ -20,8 +20,11 @@
     box-sizing: border-box;
     cursor: move;
     cursor: default;
-    background: white;
     font-size: 14px;
+  }
+
+  .task-box.active {
+    background-color: rgb(234, 234, 224);
   }
   
   .cdk-drag-preview {
