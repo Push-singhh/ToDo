@@ -66,7 +66,7 @@ class TaskUpdateAPIView(generics.UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         if (request.data.get('position') and instance.position and
                 instance.position != request.data.get('position')):
-            self.move_tasks(instance.position, request.data.get('position'))
+            move_item(instance.position, request.data.get('position'), Task)
         self.perform_update(serializer)
 
         if getattr(instance, '_prefetched_objects_cache', None):
@@ -76,14 +76,16 @@ class TaskUpdateAPIView(generics.UpdateAPIView):
 
         return Response(serializer.data)
 
-    @transaction.atomic
-    def move_tasks(self, current_position, new_position):
-        if current_position < new_position:
-            Task.objects.filter(position__lte=new_position,
-                                position__gt=current_position).update(position=F("position") - 1)
-        elif current_position > new_position:
-            Task.objects.filter(position__lt=current_position,
-                                position__gte=new_position).update(position=F("position") + 1)
-
 
 task_update_view = TaskUpdateAPIView.as_view()
+
+
+@transaction.atomic
+def move_item(current_position, new_position, model):
+    if current_position < new_position:
+        model.objects.filter(position__lte=new_position,
+                             position__gt=current_position).update(position=F("position") - 1)
+    elif current_position > new_position:
+        model.objects.filter(position__lt=current_position,
+                             position__gte=new_position).update(position=F("position") + 1)
+

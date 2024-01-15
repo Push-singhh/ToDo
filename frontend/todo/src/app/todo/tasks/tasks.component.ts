@@ -48,6 +48,12 @@ export class TasksComponent {
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.tasks, event.previousIndex, event.currentIndex);
+
+    this.crudService.updateData(`tasks/${this.tasks[event.currentIndex].id}/update`, {
+      position: event.currentIndex + 1
+    }).subscribe((response:any) => {
+
+    })
   }
 
   openDialog(): void {

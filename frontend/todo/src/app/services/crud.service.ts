@@ -19,5 +19,9 @@ export class CrudService {
  postData(endpoint: any, data: any): Observable<any> {
     return this.http.post(`${environment.apiUrl}/${endpoint}`, data)
  }
+
+ updateData(endpoint: string, data: object): Observable<any> {
+    return this.http.patch(`${environment.apiUrl}/${endpoint}`, data)
+ }
  
 }
