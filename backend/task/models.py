@@ -10,3 +10,4 @@ class Task(models.Model):
     user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
     task = models.CharField(max_length=120, null=False)
     note = models.CharField(max_length=120, null=True)
+    position = models.IntegerField(null=True)

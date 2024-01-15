@@ -13,7 +13,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 class RegisterUserSerializer(serializers.ModelSerializer):
     name = serializers.CharField(required=False)
-    email = serializers.EmailField(required=True, validators=[UniqueValidator(queryset=User.objects.all())])
+    email = serializers.EmailField(required=True, validators=[UniqueValidator(queryset=User.objects.all(),
+                                                                              message="You have already signed up")])
     password = serializers.CharField(required=True, write_only=True, validators=[validate_password])
     password2 = serializers.CharField(required=True, write_only=True)
 
