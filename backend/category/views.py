@@ -10,7 +10,6 @@ from rest_framework.exceptions import ValidationError
 
 class CategoryListCreateAPIView(UserQuerySetMixin,
                                 generics.ListCreateAPIView):
-    queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
     def create(self, request, *args, **kwargs):
@@ -37,7 +36,7 @@ class CategoryListCreateAPIView(UserQuerySetMixin,
         """
 
         user = self.request.user
-        return Category.objects.filter(user=user).order_by('position')
+        return Category.objects.filter(user=user, deleted_at=None).order_by('position')
 
 
 category_list_create_view = CategoryListCreateAPIView.as_view()
@@ -76,8 +75,7 @@ class CategoryUpdateAPIView(generics.UpdateAPIView):
 category_update_view = CategoryUpdateAPIView.as_view()
 
 
-class CategoryDestroyAPIView(UserQuerySetMixin,
-                             generics.DestroyAPIView):
+class CategoryDestroyAPIView(UserQuerySetMixin, generics.DestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     lookup_field = 'pk'

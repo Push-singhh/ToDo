@@ -18,7 +18,8 @@ class CategorySerializer(serializers.ModelSerializer):
             'description',
             'view_title',
             'custom_lower_title',
-            'position'
+            'position',
+            'created_at'
         ]
 
     def get_custom_lower_title(self, obj):

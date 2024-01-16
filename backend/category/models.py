@@ -9,6 +9,8 @@ class Category(models.Model):
     title = models.CharField(max_length=120)
     description = models.CharField(max_length=120, null=True)
     position = models.IntegerField(null=False)
+    created_at = models.DateTimeField(null=False)
+    deleted_at = models.DateTimeField(null=True)
 
     @property
     def view_title(self):

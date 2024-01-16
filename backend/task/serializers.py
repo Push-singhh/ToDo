@@ -12,5 +12,7 @@ class TaskSerializer(serializers.ModelSerializer):
             'category',
             'task',
             'note',
-            'position'
+            'position',
+            'created_at',
+            'completed_at'
         ]
