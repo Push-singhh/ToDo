@@ -1,3 +1,5 @@
+from datetime import datetime, UTC
+
 from django.db import models
 from users.models import User
 
@@ -9,7 +11,7 @@ class Category(models.Model):
     title = models.CharField(max_length=120)
     description = models.CharField(max_length=120, null=True)
     position = models.IntegerField(null=False)
-    created_at = models.DateTimeField(null=False)
+    created_at = models.DateTimeField(null=False, default=datetime.now(UTC))
     deleted_at = models.DateTimeField(null=True)
 
     @property
