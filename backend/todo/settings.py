@@ -63,7 +63,8 @@ MIDDLEWARE = [
 
 # CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:4200'
+    'http://localhost:4200',
+    'http://13.49.91.201'
 ]
 
 ROOT_URLCONF = 'todo.urls'
