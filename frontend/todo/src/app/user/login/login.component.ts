@@ -5,6 +5,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class LoginComponent {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public router: Router
   ) {}
 
   ngOnInit() {

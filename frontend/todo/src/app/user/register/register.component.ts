@@ -5,6 +5,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -25,7 +26,8 @@ export class RegisterComponent {
 
   constructor(
     private authentiactionService: AuthenticationService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public router: Router
     ) {}
 
 
