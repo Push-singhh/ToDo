@@ -11,10 +11,10 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
-        path: 'user/register', component: RegisterComponent 
+        path: 'register', component: RegisterComponent 
     },
     {
-        path: 'user/login', component: LoginComponent
+        path: 'login', component: LoginComponent
     },
     {
         path: 'todo-board', component: TodoBoardComponent,
