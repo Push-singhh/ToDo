@@ -67,7 +67,7 @@ export class CategoriesComponent {
   }
 
   submit() {
-    this.router.navigate(['/user/login']);
+    this.router.navigate(['/login']);
   }
 
   logout() {

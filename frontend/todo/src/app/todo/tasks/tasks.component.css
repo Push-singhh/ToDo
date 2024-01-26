@@ -21,6 +21,8 @@
     cursor: move;
     cursor: default;
     font-size: 14px;
+    max-height: 70px;
+
   }
 
   .task-box.active {

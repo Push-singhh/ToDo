@@ -23,5 +23,9 @@ export class CrudService {
  updateData(endpoint: string, data: object): Observable<any> {
     return this.http.patch(`${environment.apiUrl}/${endpoint}`, data)
  }
+
+ deleteData(endpoint: string): Observable<any> {
+  return this.http.delete(`${environment.apiUrl}/${endpoint}`)
+ }
  
 }
