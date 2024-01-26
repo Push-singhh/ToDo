@@ -1,8 +1,35 @@
+<div>
+    <mat-card-content>
+      <h2>{{category_details?.title}}</h2>
+    </mat-card-content>
+    
+    <button mat-button color="warn">
+      <mat-icon>delete</mat-icon>
+       Delete List
+    </button>
+</div>
+
+
 <div cdkDropList class="tasks-list" (cdkDropListDropped)="drop($event)">
     @for (task of tasks; track task) {
       <div class="task-box" cdkDrag (click)="taskDetails(task.id)" 
       [class.active]="task.id == selectedTaskId">
-        {{task?.task}}
+      <mat-checkbox class="checkbox" (click)="updateTaskCompletion(task.id, task.completed_at, $event)" [(ngModel)]="task.completed_at">{{task?.task}}</mat-checkbox>
+      </div>
+    }
+  </div>
+
+  <div>
+    <mat-card-content>
+      Completed
+    </mat-card-content>
+  </div>
+
+  <div cdkDropList class="tasks-list" (cdkDropListDropped)="drop($event)">
+    @for (task of completedTasks; track task) {
+      <div class="task-box" cdkDrag (click)="taskDetails(task.id)" 
+      [class.active]="task.id == selectedTaskId">
+      <mat-checkbox class="checkbox" (click)="updateTaskCompletion(task.id, task.completed_at, $event)" [(ngModel)]="task.completed_at">{{task?.task}}</mat-checkbox>
       </div>
     }
   </div>
