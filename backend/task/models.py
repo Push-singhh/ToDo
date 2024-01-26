@@ -1,6 +1,7 @@
 from datetime import datetime, UTC
 
 from django.db import models
+from django.utils import timezone
 from category.models import Category
 from users.models import User
 
@@ -13,6 +14,6 @@ class Task(models.Model):
     task = models.CharField(max_length=120, null=False)
     note = models.CharField(max_length=120, null=True)
     position = models.IntegerField(null=True)
-    created_at = models.DateTimeField(null=False, default=datetime.now(UTC))
+    created_at = models.DateTimeField(null=False, default=timezone.now)
     deleted_at = models.DateTimeField(null=True)
     completed_at = models.DateTimeField(null=True)
