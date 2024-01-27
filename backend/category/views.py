@@ -2,6 +2,7 @@ from rest_framework import generics, authentication, permissions, status
 from rest_framework.response import Response
 
 from .models import Category
+from task.models import Task
 from .serializers import CategorySerializer
 from api.mixins import UserQuerySetMixin
 from task.views import move_item
@@ -79,6 +80,13 @@ class CategoryDestroyAPIView(UserQuerySetMixin, generics.DestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     lookup_field = 'pk'
+
+    def perform_destroy(self, instance):
+        # Deleting tasks of category being deleted
+        Task.objects.filter(category=instance.id).delete()
+
+        instance.delete()
+
 
 
 category_destroy_view = CategoryDestroyAPIView.as_view()

@@ -14,7 +14,7 @@ class TaskListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = TaskSerializer
 
     def create(self, request, *args, **kwargs):
-
+        # Adding task being created at last position of uncompleted tasks
         last_record = self.get_queryset().last()
         if last_record:
             last_position = last_record.position
@@ -22,6 +22,7 @@ class TaskListCreateAPIView(generics.ListCreateAPIView):
             last_position = 0
         data = request.data
         data.update({"position": last_position + 1})
+
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -79,12 +80,16 @@ class TaskUpdateAPIView(generics.UpdateAPIView):
 
         if (request.data.get('position') and instance.position and
                 instance.position != request.data.get('position')):
+            # Shuffling tasks
             move_item(instance.position, request.data.get('position'), Task, instance.category)
             instance.position = request.data.get('position')
             # TODO: why is necessary to change instance value here when data is already in serializer
         elif request.data.get('completed_at') and instance.position:
+            # Shifting tasks in position of task being completed
             shift_item_after_completion(instance.position, Task, instance.category)
         elif 'completed_at' in request.data and not request.data.get('completed_at'):
+            # Here the completed task is being marked uncompleted
+            # So we are trying to insert task at its previous position
             item_position = insert_item(instance.position, Task, instance.category)
             instance.position = item_position
 
@@ -106,6 +111,7 @@ class TaskDeleteAPIView(generics.DestroyAPIView):
     serializer_class = TaskSerializer
 
     def perform_destroy(self, instance=None):
+        # Shifting tasks in position of task being deleted
         shift_item_after_completion(instance.position, Task, instance.category)
         instance.delete()
 
