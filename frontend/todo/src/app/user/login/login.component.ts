@@ -6,6 +6,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
+import { CrudService } from '../../services/crud.service';
 
 
 @Component({
@@ -22,8 +23,10 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   loginForm:any;
+  login_errors = []
 
   constructor(
+    private crudService: CrudService,
     private authenticationService: AuthenticationService,
     private fb: FormBuilder,
     public router: Router
@@ -31,12 +34,43 @@ export class LoginComponent {
 
   ngOnInit() {
     this.loginForm = this.fb.group({
-      email: ['', Validators.required],
+      username: ['', Validators.required],
       password: ['', Validators.required]
     })
   }
 
   submit() {
-    this.authenticationService.login(this.loginForm.get("email").value, this.loginForm.get("password").value)
+    this.login_errors = []
+    this.loginForm.markAllAsTouched()
+    if (!this.loginForm.valid) {
+      return
+    }
+
+    this.crudService.postData("users/auth/login", {
+      username: this.loginForm.get("username").value,
+      password: this.loginForm.get("password").value
+    }).subscribe((response: any) => {
+      this.authenticationService.login(response)
+    }, error => {
+
+      const validationErrors = error.error;
+      if ('non_field_errors' in validationErrors) {
+        this.login_errors = validationErrors['non_field_errors']
+      }
+      else {
+        Object.keys(validationErrors).forEach(field => {
+          const formControl = this.loginForm.get(field);
+          if (formControl) {
+            formControl.setErrors({
+              serverError: validationErrors[field]
+            });
+          }  
+        });
+
+      }  
+      
+
+      
+    }) 
   }
 }

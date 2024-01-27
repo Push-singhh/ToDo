@@ -14,27 +14,20 @@ export class AuthenticationService {
 
    }
 
-  register(data:any): void {
-    this.crudService.postData("users/register", data).subscribe((response: any) => {
-      localStorage.setItem("token", response.token)
-      localStorage.setItem("email", response.email)
-      localStorage.setItem("name", response.name)
-      localStorage.setItem("user_id", response.user_id)
+  register(userData:any): void {
+    localStorage.setItem("token", userData.token)
+      localStorage.setItem("email", userData.email)
+      localStorage.setItem("name", userData.name)
+      localStorage.setItem("user_id", userData.user_id)
       this.router.navigate(['/todo-board'])
-    })
   }
 
-  login(email: string, password: string): void {
-    this.crudService.postData("users/auth/login", {
-      username: email,
-      password: password
-    }).subscribe((response: any) => {
-      localStorage.setItem("token", response.token)
-      localStorage.setItem("email", response.email)
-      localStorage.setItem("name", response.name)
-      localStorage.setItem("user_id", response.user_id)
+  login(userData:any): void {  
+      localStorage.setItem("token", userData.token)
+      localStorage.setItem("email", userData.email)
+      localStorage.setItem("name", userData.name)
+      localStorage.setItem("user_id", userData.user_id)
       this.router.navigate(['/todo-board'])
-    }) 
   }
 
   logout(): void {

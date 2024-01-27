@@ -11,12 +11,30 @@
             >
                 <mat-form-field appearance="outline">
                     <mat-label>Email</mat-label>
-                    <input matInput type="email" formControlName="email">
+                    <input matInput type="email" formControlName="username">
+                    @if (loginForm.get('username').errors?.serverError) {
+                        <mat-error class="field-error">
+                            {{ loginForm.get('username').errors?.serverError }}
+                          </mat-error>
+                    }
+                    
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Password</mat-label>
                     <input matInput type="password" formControlName="password">
+                    @if (loginForm.get('password').errors?.serverError) {
+                        <mat-error class="field-error">
+                            {{ loginForm.get('password').errors?.serverError }}
+                          </mat-error>
+                    }
                 </mat-form-field>
+                @if (login_errors) {
+                    <mat-error>
+                        @for (error of login_errors; track $index) {
+                            <span class="field-error">{{error}} </span>
+                        }
+                    </mat-error>
+                }
             </form>
         </mat-card-content>
         <mat-card-actions>

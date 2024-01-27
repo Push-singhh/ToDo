@@ -12,19 +12,54 @@
                 <mat-form-field appearance="outline">
                     <mat-label>Name</mat-label>
                     <input matInput formControlName="name">
+                    @if(this.registerForm.get('name').errors?.serverError) {
+                        <mat-error class="field-error">
+                            @for (error of this.registerForm.get('name').errors?.serverError; track $index) {
+                                <span class="field-error" >{{error}}</span>
+                            }
+                        </mat-error>
+                    }
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Email</mat-label>
                     <input matInput type="email" formControlName="email">
+                    @if(this.registerForm.get('email').errors?.serverError) {
+                        <mat-error class="field-error">
+                            @for (error of this.registerForm.get('email').errors?.serverError; track $index) {
+                                <span class="field-error" >{{error}}</span>
+                            }
+                        </mat-error>
+                    }
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Password</mat-label>
                     <input matInput type="password" formControlName="password">
+                    @if(this.registerForm.get('password').errors?.serverError) {
+                        <mat-error class="field-error">
+                            @for (error of this.registerForm.get('password').errors?.serverError; track $index) {
+                                <span class="field-error" >{{error}}</span>
+                            }
+                        </mat-error>
+                    }
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Confirm Password</mat-label>
                     <input matInput type="password" formControlName="password2">
+                    @if(this.registerForm.get('password2').errors?.serverError) {
+                        <mat-error class="field-error">
+                            @for (error of this.registerForm.get('password2').errors?.serverError; track $index) {
+                                <span class="field-error">{{error}} </span>
+                            }
+                        </mat-error>
+                    }
                 </mat-form-field>
+                @if (registrationErrors) {
+                    <mat-error>
+                        @for (error of registrationErrors; track $index) {
+                            <span class="field-error">{{error}} </span>
+                        }
+                    </mat-error>
+                }
             </form>
         </mat-card-content>
         <mat-card-actions>
