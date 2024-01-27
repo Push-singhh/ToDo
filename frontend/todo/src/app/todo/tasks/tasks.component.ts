@@ -43,8 +43,8 @@ export class TasksComponent {
       if(this.category_id) {
         this.getUncompletedTasks()
         this.getCompletedTasks()
+        this.getCategoryDetails()
       }
-      this.getCategoryDetails()
     })
   }
 
@@ -69,6 +69,12 @@ export class TasksComponent {
   getCategoryDetails() {
     this.crudService.getAllData(`categories/${this.category_id}`).subscribe((data:any) => {
       this.category_details = data
+    })
+  }
+
+  deleteCategory() {
+    this.crudService.deleteData(`categories/${this.category_id}/delete`).subscribe((data: any) => {
+      this.router.navigate(['/todo-board'])
     })
   }
 
