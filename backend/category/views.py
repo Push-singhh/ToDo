@@ -5,7 +5,7 @@ from .models import Category
 from task.models import Task
 from .serializers import CategorySerializer
 from api.mixins import UserQuerySetMixin
-from task.views import move_item
+from .position import change_category_position, shift_category_after_deletion
 from rest_framework.exceptions import ValidationError
 
 
@@ -62,7 +62,7 @@ class CategoryUpdateAPIView(generics.UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         if (request.data.get('position') and instance.position and
                 instance.position != request.data.get('position')):
-            move_item(instance.position, request.data.get('position'), Category)
+            change_category_position(instance.position, request.data.get('position'))
         self.perform_update(serializer)
 
         if getattr(instance, '_prefetched_objects_cache', None):
@@ -84,9 +84,8 @@ class CategoryDestroyAPIView(UserQuerySetMixin, generics.DestroyAPIView):
     def perform_destroy(self, instance):
         # Deleting tasks of category being deleted
         Task.objects.filter(category=instance.id).delete()
-
+        shift_category_after_deletion(instance.position)
         instance.delete()
-
 
 
 category_destroy_view = CategoryDestroyAPIView.as_view()

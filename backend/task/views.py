@@ -1,10 +1,8 @@
 from rest_framework import generics, status
-from django.db.models import F
-from django.utils import timezone
 
 from .models import Task
 from .serializers import TaskSerializer
-from django.db import transaction
+from .position import change_task_position, shift_task_after_completion, insert_task_back_to_uncompleted
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 
@@ -81,16 +79,16 @@ class TaskUpdateAPIView(generics.UpdateAPIView):
         if (request.data.get('position') and instance.position and
                 instance.position != request.data.get('position')):
             # Shuffling tasks
-            move_item(instance.position, request.data.get('position'), Task, instance.category)
+            change_task_position(instance.position, request.data.get('position'), instance.category)
             instance.position = request.data.get('position')
             # TODO: why is necessary to change instance value here when data is already in serializer
         elif request.data.get('completed_at') and instance.position:
             # Shifting tasks in position of task being completed
-            shift_item_after_completion(instance.position, Task, instance.category)
+            shift_task_after_completion(instance.position, instance.category)
         elif 'completed_at' in request.data and not request.data.get('completed_at'):
             # Here the completed task is being marked uncompleted
             # So we are trying to insert task at its previous position
-            item_position = insert_item(instance.position, Task, instance.category)
+            item_position = insert_task_back_to_uncompleted(instance.position, instance.category)
             instance.position = item_position
 
         self.perform_update(serializer)
@@ -112,47 +110,8 @@ class TaskDeleteAPIView(generics.DestroyAPIView):
 
     def perform_destroy(self, instance=None):
         # Shifting tasks in position of task being deleted
-        shift_item_after_completion(instance.position, Task, instance.category)
+        shift_task_after_completion(instance.position, instance.category)
         instance.delete()
 
 
 task_delete_view = TaskDeleteAPIView.as_view()
-
-
-@transaction.atomic
-def move_item(current_position, new_position, model, category):
-    if current_position < new_position:
-        model.objects.filter(position__lte=new_position,
-                             position__gt=current_position,
-                             category=category,
-                             completed_at__isnull=True).update(position=F("position") - 1)
-    elif current_position > new_position:
-        model.objects.filter(position__lt=current_position,
-                             position__gte=new_position,
-                             category=category,
-                             completed_at__isnull=True).update(position=F("position") + 1)
-
-
-@transaction.atomic
-def shift_item_after_completion(from_position, model, category):
-    model.objects.filter(position__gt=from_position,
-                         category=category,
-                         completed_at__isnull=True).update(position=F("position") - 1)
-
-
-@transaction.atomic
-def insert_item(to_position, model, category):
-    last_record = (model.objects.filter(category=category, completed_at__isnull=True).
-                   order_by('position').last())
-    if last_record:
-        last_position = last_record.position
-    else:
-        last_position = 0
-
-    if to_position < last_position:
-        model.objects.filter(position__gte=to_position,
-                             category=category,
-                             completed_at__isnull=True).update(position=F("position") + 1)
-        return to_position
-    else:
-        return last_position + 1
