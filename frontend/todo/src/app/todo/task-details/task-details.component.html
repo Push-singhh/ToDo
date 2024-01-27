@@ -1,11 +1,21 @@
 <div>
     @if (task_details?.task) {
         <mat-card>
-            <mat-card-content>{{task_details.task}}</mat-card-content>
+            <mat-card-content><h2>{{task_details.task}}</h2></mat-card-content>
         </mat-card>
+        <mat-card>
+            <mat-card-content>Created At {{ task_details?.created_at | date: 'medium' }}</mat-card-content>
+        </mat-card>
+        @if (task_details?.completed_at) {
+            <mat-card>
+                <mat-card-content>
+                    Completed At {{ task_details?.completed_at | date: 'medium' }}
+                </mat-card-content>
+            </mat-card>
+        }
     
         <button mat-button color="warn" (click)="deleteTask()">
-            <mat-icon>delete</mat-icon>
+            <mat-icon>delete_outline</mat-icon>
             Delete Task
         </button>
           

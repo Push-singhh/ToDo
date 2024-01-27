@@ -9,6 +9,10 @@
             <button mat-raised-button (click)="submit()">Login</button>
         }
     </div>
+    <div>
+        <button mat-raised-button (click)="openDialog()">New List</button>
+    </div>
+
     <div class="content">
         <div cdkDropList class="category-list" (cdkDropListDropped)="drop($event)">
             @for (category of categories; track category;) {
@@ -19,7 +23,5 @@
             }
           </div>
     </div>
-    <div class="footer">
-        <button mat-raised-button (click)="openDialog()">New List</button>
-    </div>
+
 </div>

@@ -4,12 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-task-details',
   standalone: true,
   imports: [
-    MatCardModule, MatIconModule, MatButtonModule
+    MatCardModule, MatIconModule, MatButtonModule, DatePipe
   ],
   templateUrl: './task-details.component.html',
   styleUrl: './task-details.component.css'

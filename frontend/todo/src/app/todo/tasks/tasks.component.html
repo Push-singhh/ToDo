@@ -1,41 +1,52 @@
-<div>
-    <mat-card-content>
-      <h2>{{category_details?.title}}</h2>
-    </mat-card-content>
-    
-    <button mat-button color="warn" (click)="deleteCategory()">
-      <mat-icon>delete</mat-icon>
-       Delete List
-    </button>
-</div>
+<div class="container">
+  <div class="header">
+    <mat-card>
+      @if (category_id) {
 
-
-<div cdkDropList class="tasks-list" (cdkDropListDropped)="drop($event)">
-    @for (task of tasks; track task) {
-      <div class="task-box" cdkDrag (click)="taskDetails(task.id)" 
-      [class.active]="task.id == selectedTaskId">
-      <mat-checkbox class="checkbox" (click)="updateTaskCompletion(task.id, task.completed_at, $event)" [(ngModel)]="task.completed_at">{{task?.task}}</mat-checkbox>
-      </div>
-    }
+        <mat-card-content>
+          <h2>{{category_details?.title}}</h2>
+          <button  mat-button color="warn" (click)="deleteCategory()">
+            <mat-icon>delete_outline</mat-icon>
+             Delete List
+          </button>
+        </mat-card-content>
+      }
+    </mat-card>    
+    <div>
+      <button mat-raised-button [disabled]="!category_id" (click)="openDialog()">Create Task</button>
+    </div>
   </div>
-
-  <div>
-    <mat-card-content>
-      Completed
-    </mat-card-content>
-  </div>
-
-  <div cdkDropList class="tasks-list" (cdkDropListDropped)="drop($event)">
-    @for (task of completedTasks; track task) {
-      <div class="task-box" cdkDrag (click)="taskDetails(task.id)" 
-      [class.active]="task.id == selectedTaskId">
-      <mat-checkbox class="checkbox" (click)="updateTaskCompletion(task.id, task.completed_at, $event)" [(ngModel)]="task.completed_at">{{task?.task}}</mat-checkbox>
-      </div>
-    }
-  </div>
-
-  <div>
-    <button mat-raised-button (click)="openDialog()">Create Task</button>
-  </div>
-
   
+  <div class="content">
+  
+    
+    <div cdkDropList class="tasks-list" (cdkDropListDropped)="drop($event)">
+        @for (task of tasks; track task) {
+          <div class="task-box" cdkDrag (click)="taskDetails(task.id)" 
+          [class.active]="task.id == selectedTaskId">
+          <mat-checkbox class="checkbox" (click)="updateTaskCompletion(task.id, task.completed_at, $event)" [(ngModel)]="task.completed_at">{{task?.task}}</mat-checkbox>
+          </div>
+        }
+      </div>
+    
+      @if (completedTasks.length) {
+        <div>
+          <mat-card-content>
+            Completed
+          </mat-card-content>
+        </div>
+      
+        <div cdkDropList class="tasks-list" (cdkDropListDropped)="drop($event)">
+          @for (task of completedTasks; track task) {
+            <div class="task-box" cdkDrag (click)="taskDetails(task.id)" 
+            [class.active]="task.id == selectedTaskId">
+            <mat-checkbox class="checkbox" (click)="updateTaskCompletion(task.id, task.completed_at, $event)" [(ngModel)]="task.completed_at">{{task?.task}}</mat-checkbox>
+            </div>
+          }
+        </div>
+      }
+  </div>
+  
+  <div class="footer"></div>
+    
+</div>
