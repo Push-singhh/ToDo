@@ -18,7 +18,10 @@
             @for (category of categories; track category;) {
                     <div class="category-item" cdkDrag (click)="openList(category.id)"
                     [class.active]="category.id == selectedCategory">
-                        {{ category?.title}}
+                    <span>{{ category?.title}}</span>
+                    @if (category?.num_of_active_task) {
+                        <span>{{ category?.num_of_active_task }}</span>
+                    }
                     </div>
             }
           </div>

@@ -43,14 +43,14 @@ export class TasksComponent {
       this.category_id = data.id
       this.selectedTaskId = data.task_id
       if(this.category_id) {
-        this.getUncompletedTasks()
+        this.getActiveTasks()
         this.getCompletedTasks()
         this.getCategoryDetails()
       }
     })
   }
 
-  getUncompletedTasks() {
+  getActiveTasks() {
     this.crudService.getAllData(`tasks/?category_id=${this.category_id}&completed=${false}`).subscribe((data:any) => {
       this.tasks = data
     })
@@ -92,7 +92,8 @@ export class TasksComponent {
       completed_at: completed_at
     }).subscribe((response:any) => {
         this.communicationService.announceTaskDetailUpdate(true)
-        this.getUncompletedTasks()
+        this.communicationService.announceCategoriesUpdate(true)
+        this.getActiveTasks()
         this.getCompletedTasks()
     })
     event.stopPropagation();
@@ -119,7 +120,8 @@ export class TasksComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.getUncompletedTasks()
+      this.getActiveTasks()
+      this.communicationService.announceCategoriesUpdate(true)
     });
   }
 
