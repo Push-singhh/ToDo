@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -6,6 +6,8 @@ import { CrudService } from '../../services/crud.service';
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag} from '@angular/cdk/drag-drop'
 import { MatDialog } from '@angular/material/dialog'
 import { CreateCategoryDialogComponent } from '../../dialogs/create-category-dialog/create-category-dialog.component';
+import { CommunicationService } from '../../services/communication.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-categories',
@@ -16,18 +18,28 @@ import { CreateCategoryDialogComponent } from '../../dialogs/create-category-dia
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
 })
-export class CategoriesComponent {
+export class CategoriesComponent implements OnDestroy{
   user: any = {}
   categories: any = []
   selectedCategory!: number 
+
+  subscription = new Subscription()
 
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
     private crudService: CrudService,
     private dialog: MatDialog,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private communicationService: CommunicationService
   ) {
+
+    this.subscription = communicationService.updateCategoriesAnnounced$.subscribe(update => {
+      if (update) {
+        this.get_categories()
+      }
+    })
+
     this.user['email'] = localStorage.getItem("email")
     this.user['name'] = localStorage.getItem("name")
     this.user['user_id'] = localStorage.getItem("user_id")
@@ -78,5 +90,9 @@ export class CategoriesComponent {
     this.crudService.getAllData("categories/").subscribe((data: any) => {
       this.categories = data
     })
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
   }
 }

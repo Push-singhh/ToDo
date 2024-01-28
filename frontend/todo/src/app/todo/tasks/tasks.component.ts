@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { CommunicationService } from '../../services/communication.service';
 
 
 @Component({
@@ -35,7 +36,8 @@ export class TasksComponent {
     private crudService: CrudService,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private communicationService: CommunicationService
   ) {
     this.activatedRoute.params.subscribe((data:any) => {
       this.category_id = data.id
@@ -89,6 +91,7 @@ export class TasksComponent {
     this.crudService.updateData(`tasks/${task_id}/update`, {
       completed_at: completed_at
     }).subscribe((response:any) => {
+        this.communicationService.announceTaskDetailUpdate(true)
         this.getUncompletedTasks()
         this.getCompletedTasks()
     })
