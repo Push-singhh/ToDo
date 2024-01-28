@@ -14,6 +14,7 @@ class Category(models.Model):
     position = models.IntegerField(null=False)
     created_at = models.DateTimeField(null=False, default=timezone.now)
     deleted_at = models.DateTimeField(null=True)
+    num_of_active_task = models.IntegerField(default=0)
 
     @property
     def view_title(self):

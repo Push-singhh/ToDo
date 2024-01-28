@@ -7,7 +7,6 @@ from .validators import unique_category_title, UniqueCategoryValidator
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    custom_lower_title = serializers.SerializerMethodField(read_only=True)
     title = serializers.CharField(validators=[UniqueCategoryValidator("title")])
 
     class Meta:
@@ -17,15 +16,7 @@ class CategorySerializer(serializers.ModelSerializer):
             'title',
             'description',
             'view_title',
-            'custom_lower_title',
             'position',
-            'created_at'
+            'created_at',
+            'num_of_active_task'
         ]
-
-    def get_custom_lower_title(self, obj):
-        if not isinstance(obj, Category):
-            return None
-
-        return str(obj.lower_title())
-
-

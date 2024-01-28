@@ -5,6 +5,7 @@ from django.db import transaction
 from django.db.models import F
 
 from .models import Task
+from category.models import Category
 
 
 @transaction.atomic
@@ -26,10 +27,11 @@ def shift_task_after_completion(from_position, category):
     Task.objects.filter(position__gt=from_position,
                         category=category,
                         completed_at__isnull=True).update(position=F("position") - 1)
+    Category.objects.filter(id=category.id).update(num_of_active_task=F("num_of_active_task") - 1)
 
 
 @transaction.atomic
-def insert_task_back_to_uncompleted(to_position, category):
+def insert_back_to_active_task(to_position, category):
     last_record = (Task.objects.filter(category=category, completed_at__isnull=True).
                    order_by('position').last())
     if last_record:
@@ -41,6 +43,9 @@ def insert_task_back_to_uncompleted(to_position, category):
         Task.objects.filter(position__gte=to_position,
                             category=category,
                             completed_at__isnull=True).update(position=F("position") + 1)
-        return to_position
+        position_available = to_position
     else:
-        return last_position + 1
+        position_available = last_position + 1
+
+    Category.objects.filter(id=category.id).update(num_of_active_task=F("num_of_active_task") + 1)
+    return position_available

@@ -2,7 +2,7 @@ from rest_framework import generics, status
 
 from .models import Task
 from .serializers import TaskSerializer
-from .position import change_task_position, shift_task_after_completion, insert_task_back_to_uncompleted
+from .position import change_task_position, shift_task_after_completion, insert_back_to_active_task
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 
@@ -12,7 +12,7 @@ class TaskListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = TaskSerializer
 
     def create(self, request, *args, **kwargs):
-        # Adding task being created at last position of uncompleted tasks
+        # Adding task being created at last position of active tasks
         last_record = self.get_queryset().last()
         if last_record:
             last_position = last_record.position
@@ -86,9 +86,9 @@ class TaskUpdateAPIView(generics.UpdateAPIView):
             # Shifting tasks in position of task being completed
             shift_task_after_completion(instance.position, instance.category)
         elif 'completed_at' in request.data and not request.data.get('completed_at'):
-            # Here the completed task is being marked uncompleted
+            # Here the completed task is being marked active
             # So we are trying to insert task at its previous position
-            item_position = insert_task_back_to_uncompleted(instance.position, instance.category)
+            item_position = insert_back_to_active_task(instance.position, instance.category)
             instance.position = item_position
 
         self.perform_update(serializer)
