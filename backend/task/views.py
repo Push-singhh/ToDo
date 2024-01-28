@@ -109,8 +109,6 @@ class TaskDeleteAPIView(generics.DestroyAPIView):
     serializer_class = TaskSerializer
 
     def perform_destroy(self, instance=None):
-        # Shifting tasks in position of task being deleted
-        shift_task_after_completion(instance.position, instance.category)
         instance.delete()
 
 
