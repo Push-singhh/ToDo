@@ -24,7 +24,10 @@
         @for (task of tasks; track task) {
           <div class="task-box" cdkDrag (click)="taskDetails(task.id)" 
           [class.active]="task.id == selectedTaskId">
-          <mat-checkbox class="checkbox" (click)="updateTaskCompletion(task.id, task.completed_at, $event)" [(ngModel)]="task.completed_at">{{task?.task}}</mat-checkbox>
+          <span>
+            <mat-checkbox class="checkbox" (click)="updateTaskCompletion(task.id, task.completed_at, $event)" [(ngModel)]="task.completed_at"></mat-checkbox>
+            {{task?.task}}
+          </span>
           </div>
         }
       </div>
@@ -40,7 +43,10 @@
           @for (task of completedTasks; track task) {
             <div class="task-box" cdkDrag (click)="taskDetails(task.id)" 
             [class.active]="task.id == selectedTaskId">
-            <mat-checkbox class="checkbox" (click)="updateTaskCompletion(task.id, task.completed_at, $event)" [(ngModel)]="task.completed_at">{{task?.task}}</mat-checkbox>
+            <span>
+              <mat-checkbox class="checkbox" (click)="updateTaskCompletion(task.id, task.completed_at, $event)" [(ngModel)]="task.completed_at"></mat-checkbox>
+              {{task?.task}}
+            </span>
             </div>
           }
         </div>
