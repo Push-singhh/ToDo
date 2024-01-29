@@ -1,17 +1,37 @@
 version: '3.8'
 
 services:
-  django-app:
-    build: ../backend/
+
+  db:
+    image: mysql:8.3.0
+    container_name: todoDBContainer
+    volumes:
+      - data:/var/lib/mysql
+    env_file:
+      - .env
+    ports:
+      - 3306:3306
     networks:
       - todo
 
-  angular-app:
-    build: ../frontend/todo
+  backend:
+    build: ../backend/
+    container_name: todoApiContainer
     depends_on:
-      - django-app
+      - db
     networks:
       - todo
+
+  frontend:
+    build: ../frontend/todo
+    container_name: todoClientContainer
+    depends_on:
+      - backend
+    networks:
+      - todo
+
+volumes:
+  data:
       
 networks:
   todo:

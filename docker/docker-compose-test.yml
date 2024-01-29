@@ -1,10 +1,10 @@
 version: '3.8'
 
 services:
-  django-app:
+  backend:
     ports:
       - 8000:8000
 
-  angular-app:
+  frontend:
     ports:
       - 4200:4200
