@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, Ma
 import { CrudService } from '../../services/crud.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { CommunicationService } from '../../services/communication.service';
 
 @Component({
   selector: 'app-create-task-dialog',
@@ -23,7 +24,8 @@ export class CreateTaskDialogComponent {
   constructor(
     private fb: FormBuilder,
     private crudService: CrudService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private communicationService: CommunicationService
   ) {
     this.taskForm = this.fb.group({
       task: ['', Validators.required]
@@ -35,6 +37,7 @@ export class CreateTaskDialogComponent {
       task: this.taskForm.get('task').value,
       category: this.data?.category
     }).subscribe((data:any) => {
+      this.communicationService.announceCategoriesUpdate(true)
 
     })
   }

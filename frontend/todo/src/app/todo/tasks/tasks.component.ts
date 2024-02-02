@@ -121,7 +121,6 @@ export class TasksComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       this.getActiveTasks()
-      this.communicationService.announceCategoriesUpdate(true)
     });
   }
 
