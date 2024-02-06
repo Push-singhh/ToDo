@@ -2,6 +2,13 @@ version: '3.8'
 
 services:
 
+  redis:
+    image: redis:7.2
+    ports:
+      - 6379:6379
+    networks:
+      - todo
+
   db:
     image: mysql:8.3.0
     container_name: todoDBContainer
@@ -17,8 +24,22 @@ services:
   backend:
     build: ../backend/
     container_name: todoApiContainer
+    command: gunicorn todo.wsgi:application --bind 0.0.0.0:8000
     depends_on:
       - db
+      - redis
+    networks:
+      - todo
+
+  asgiserver:
+    build: ../backend/
+    container_name: todoAsgiContainer
+    command: daphne todo.asgi:application -b 0.0.0.0 -p 9000
+    depends_on:
+      - db
+      - redis
+    ports:
+      - 9000:9000
     networks:
       - todo
 
