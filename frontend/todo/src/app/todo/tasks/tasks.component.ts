@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { CrudService } from '../../services/crud.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,6 +11,7 @@ import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { CommunicationService } from '../../services/communication.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -23,7 +24,7 @@ import { CommunicationService } from '../../services/communication.service';
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
-export class TasksComponent {
+export class TasksComponent implements OnDestroy{
   tasks:any = []
   completedTasks: any = []
   selectedTaskId!:number
@@ -32,6 +33,9 @@ export class TasksComponent {
 
   completed = false
 
+  subscription = new Subscription()
+
+
   constructor(
     private crudService: CrudService,
     private dialog: MatDialog,
@@ -39,6 +43,10 @@ export class TasksComponent {
     private router: Router,
     private communicationService: CommunicationService
   ) {
+    this.subscription = communicationService.updateTaskListAnnounced$.subscribe(update => {
+      this.getActiveTasks()
+      this.getCompletedTasks()
+    })
     this.activatedRoute.params.subscribe((data:any) => {
       this.category_id = data.id
       this.selectedTaskId = data.task_id
@@ -122,6 +130,10 @@ export class TasksComponent {
     dialogRef.afterClosed().subscribe(result => {
       this.getActiveTasks()
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
   }
 
 }
