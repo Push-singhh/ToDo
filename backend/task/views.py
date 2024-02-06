@@ -6,6 +6,10 @@ from .position import change_task_position, shift_task_after_completion, insert_
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+channel_layer = get_channel_layer()
+
 
 class TaskListCreateAPIView(generics.ListCreateAPIView):
     queryset = Task.objects.all()
@@ -98,6 +102,10 @@ class TaskUpdateAPIView(generics.UpdateAPIView):
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
 
+        async_to_sync(channel_layer.group_send)(str(instance.user.id), {"type": "todo_update_event",
+                                                                        "update_event": "task_detail"})
+        async_to_sync(channel_layer.group_send)(str(instance.user.id), {"type": "todo_update_event",
+                                                                        "update_event": "task_list"})
         return Response(serializer.data)
 
 

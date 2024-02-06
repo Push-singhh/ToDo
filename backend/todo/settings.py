@@ -26,13 +26,14 @@ SECRET_KEY = 'django-insecure-xg=z2^tz7-wo^i0q(9!=f)#-wexa@vjkxu)%!p8#)i)j(sh_g+
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '13.49.91.201', 'localhost', '1.1.1.1'
+    '13.49.91.201', 'localhost', '1.1.1.1', '*'
 ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -86,6 +87,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'todo.wsgi.application'
+ASGI_APPLICATION = "todo.asgi.application"
 
 
 # Database
@@ -98,6 +100,21 @@ DATABASES = {
             "read_default_file": os.path.join(BASE_DIR, 'db-conn.cnf'),
         }
     }
+}
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels.layers.InMemoryChannelLayer"
+#     }
+# }
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
 }
 
 
