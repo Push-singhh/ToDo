@@ -1,6 +1,8 @@
+from django.db.models import F
 from rest_framework import generics, status
 
 from .models import Task
+from category.models import Category
 from .serializers import TaskSerializer
 from .position import change_task_position, shift_task_after_completion, insert_back_to_active_task
 from rest_framework.response import Response
@@ -102,10 +104,6 @@ class TaskUpdateAPIView(generics.UpdateAPIView):
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
 
-        async_to_sync(channel_layer.group_send)(str(instance.user.id), {"type": "todo_update_event",
-                                                                        "update_event": "task_detail"})
-        async_to_sync(channel_layer.group_send)(str(instance.user.id), {"type": "todo_update_event",
-                                                                        "update_event": "task_list"})
         return Response(serializer.data)
 
 
@@ -118,6 +116,10 @@ class TaskDeleteAPIView(generics.DestroyAPIView):
 
     def perform_destroy(self, instance=None):
         instance.delete()
+        if instance.completed_at is None:
+            Category.objects.filter(id=instance.category.id).update(num_of_active_task=F("num_of_active_task") - 1)
+            async_to_sync(channel_layer.group_send)(str(instance.user.id), {"type": "todo_update_event",
+                                                                            "update_event": "update_tasks"})
 
 
 task_delete_view = TaskDeleteAPIView.as_view()
