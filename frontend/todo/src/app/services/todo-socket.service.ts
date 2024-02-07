@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class TodoSocketService {
 
   constructor() { 
     const user_id = localStorage.getItem("user_id")
-    this.socket$ = webSocket(`ws://localhost:9000/ws/todo/${user_id}/`);
+    this.socket$ = webSocket(`${environment.socketServerUrl}/${user_id}/`);
 
 }
 

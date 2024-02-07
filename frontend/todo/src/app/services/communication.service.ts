@@ -18,19 +18,15 @@ export class CommunicationService {
   ) {
     this.subscription = todoSocketService.onUpdate().subscribe((data) => {
       if (data?.update_event) {
-        if (data?.update_event == "category") {
+        if (data?.update_event == "update_category") {
           this.announceCategoriesUpdate(true)
         }
-        else if (data?.update_event == "task_detail") {
+        else if (data?.update_event == "update_tasks") {
           this.announceTaskDetailUpdate(true)
           this.announceCategoriesUpdate(true)
         } 
-        else if (data?.update_event == "task_list") {
-          this.announceTaskListUpdate(true)
-        } 
-        
       }
-      console.log("socker subscribed")
+      console.log("socket subscribed")
     })
    }
 
