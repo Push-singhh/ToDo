@@ -17,3 +17,8 @@ class Task(models.Model):
     created_at = models.DateTimeField(null=False, default=timezone.now)
     deleted_at = models.DateTimeField(null=True)
     completed_at = models.DateTimeField(null=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['category'],),
+        ]

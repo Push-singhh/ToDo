@@ -3,7 +3,8 @@ djangorestframework==3.14.0
 pyyaml==6.0.1
 requests==2.31.0
 django-cors-headers==4.3.1
-gunicorn==21.0.1
+gunicorn==21.2.0
+gevent==23.9.1
 mysqlclient==2.2.1
 channels[daphne]==4.0.0
 channels-redis==4.2.0
