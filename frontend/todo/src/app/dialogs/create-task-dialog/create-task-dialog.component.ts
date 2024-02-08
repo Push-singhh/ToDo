@@ -37,7 +37,7 @@ export class CreateTaskDialogComponent {
       task: this.taskForm.get('task').value,
       category: this.data?.category
     }).subscribe((data:any) => {
-      this.communicationService.announceCategoriesUpdate(true)
+      // this.communicationService.announceCategoriesUpdate(true)
 
     })
   }

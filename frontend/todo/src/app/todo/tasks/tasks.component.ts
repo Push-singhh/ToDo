@@ -99,8 +99,8 @@ export class TasksComponent implements OnDestroy{
     this.crudService.updateData(`tasks/${task_id}/update`, {
       completed_at: completed_at
     }).subscribe((response:any) => {
-        this.communicationService.announceTaskDetailUpdate(true)
-        this.communicationService.announceCategoriesUpdate(true)
+        // this.communicationService.announceTaskDetailUpdate(true)
+        // this.communicationService.announceCategoriesUpdate(true)
         this.getActiveTasks()
         this.getCompletedTasks()
     })
