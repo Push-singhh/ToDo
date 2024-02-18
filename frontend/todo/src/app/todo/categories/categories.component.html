@@ -1,7 +1,7 @@
 <div class="container">
     <div class="header">
-        @if(user?.email) {
-            <span>{{user?.email}}</span>
+        @if(user?.name) {
+            <span>{{user?.name}}</span>
             <button mat-raised-button (click)="logout()">Logout</button>
         }
         @else {
