@@ -24,7 +24,7 @@ services:
   backend:
     build: ../backend/
     container_name: todoApiContainer
-    command: gunicorn --worker-class gevent -w 4 todo.wsgi:application --bind 0.0.0.0:8000
+    command: sh -c "python3 manage.py collectstatic && gunicorn --worker-class gevent -w 4 todo.wsgi:application --bind 0.0.0.0:8000"
     depends_on:
       - db
       - redis
